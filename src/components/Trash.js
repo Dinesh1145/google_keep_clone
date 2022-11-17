@@ -10,10 +10,10 @@ const Trash = ({ trashNotes, addFromTrash, permanentDelete }) => {
 
     return (
         <div className="container d-flex justify-content-center align-items-center">
-            {trashNotes.length != 0 ?
+            {trashes.length != 0 ?
                 <div className={
                     "grid_view_box"}>
-                    {trashNotes.map((val, index) => {
+                    {trashes.map((val, index) => {
                         return <Note key={index}
                             id={index}
                             note={val}

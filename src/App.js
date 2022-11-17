@@ -62,9 +62,9 @@ function App() {
   useEffect(() => {
     let allNotes = JSON.parse(localStorage.getItem("keep_notes"));
     let trashes = JSON.parse(localStorage.getItem("keep_trash_notes"));
-    if (allNotes != undefined && allNotes)
+    if (allNotes !== undefined && allNotes)
       setNotes(allNotes)
-    if (trashes != undefined && trashes)
+    if (trashes !== undefined && trashes)
       setTrashNotes(trashes)
   }, [])
 

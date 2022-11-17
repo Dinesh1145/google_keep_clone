@@ -44,7 +44,7 @@ export const NoteSavedBox = ({ notes, deleteItem, handlePinUnpin, view }) => {
                 <div className={!view ? "vertical_view_box" :
                     "grid_view_box"}>
                     {allNotes.map((val, index) => {
-                        if (val.isPinned === false) return
+                        if (val.isPinned === false) return null
                         return <Note key={index}
                             id={index}
                             note={val}
@@ -63,7 +63,7 @@ export const NoteSavedBox = ({ notes, deleteItem, handlePinUnpin, view }) => {
                     "grid_view_box"}>
                     {
                         allNotes.map((val, index) => {
-                            if (val.isPinned === true) return
+                            if (val.isPinned === true) return null
                             return <Note key={index}
                                 id={index}
                                 note={val}
