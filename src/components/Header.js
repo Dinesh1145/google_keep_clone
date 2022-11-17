@@ -18,16 +18,19 @@ export default function Header(props) {
         setView(true);
         props.viewTrueValue();
     }
+    const menuClick = () => {
+        props.handleSideBar();
+    }
 
 
     return (
         <>
-            <div className="container-fluid bg-light position-sticky top-0" style={{zIndex:"1111"}}>
+            <div className="container-fluid bg-light position-sticky top-0" style={{ zIndex: "1111" }}>
                 <div className="row d-flex justify-content-between p-2 text-secondary"
-                     style={{ /*boxShadow: "0 5px 10px rgba(0,0,0,.1)"*/ border:".5px solid rgba(0,0,0,.1)" }}>
+                    style={{ /*boxShadow: "0 5px 10px rgba(0,0,0,.1)"*/ border: ".5px solid rgba(0,0,0,.1)" }}>
                     <div className="col-2  g-0">
                         <div className="d-flex justify-content-left align-items-center">
-                            <IconButton>
+                            <IconButton onClick={menuClick}>
                                 <MenuIcon style={{ fontSize: "30px" }} />
                             </IconButton>
                             <img src={logo} alt="logo" className="logo" />
@@ -39,11 +42,11 @@ export default function Header(props) {
                             <IconButton>
                                 <SearchIcon />
                             </IconButton>
-                            <input type="search" placeholder="Search" className="searchBox" />
+                            <input type="search" placeholder="Available Soon..." className="searchBox" />
                         </div>
                     </div>
                     <div className="col-3 g-0">
-                        <div className="d-flex justify-content-end align-items-center " style={{ height: "100%" }}>
+                        <div className="header_view_btns">
                             {view ?
                                 <Tooltip title="List View" arrow>
                                     <IconButton onClick={listViewEvent}>

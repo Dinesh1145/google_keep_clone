@@ -1,102 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Note from './Note'
-import PinnedNote from './PinnedNote'
 
 
-export const NoteSavedBox = (props) => {
-    const [pinArray, setpinArray] = useState([]);
-    // const [isElePinned, setisElePinned] = useState(false);
+export const NoteSavedBox = ({ notes, deleteItem, handlePinUnpin, view }) => {
+    const [allNotes, setAllNotes] = useState(notes || [])
 
-    // pinArray!==[] ?  setisElePinned(true) : setisElePinned(false)
-
-    const deleteItem = (id) => {
-        props.deleteItemApp(id);
-        // console.log(id)
+    const deleteNote = (id) => {
+        deleteItem(id);
     }
-    const deletePinItem = (id) => {
-        const newList = pinArray.filter((val, index) => {
-            return index !== id;
-        })
-        setpinArray(newList);
-        // pinArray!==[] ?  setisElePinned(false) : setisElePinned(true);
-    }
-
     const pinFlagFun = (id) => {
-        let filterArr = props.array.find((curr, index) => index === id)
-        props.array.splice(id, 1)
-        //adding elements in pinned array 
-        setpinArray((pre) => {
-            return [...pre, filterArr]
-        })
-
-        // pinArray!==[] ?  setisElePinned(true) : setisElePinned(false)
-
+        handlePinUnpin(id, true);
     }
-    // console.log(isElePinned)
-    // console.log(pinArray)
     const pinRemoveFun = (id) => {
-        // pinArray.splice(id,1);
-        let noteRpin = pinArray.find((curr, index) => index === id)
-        props.array.unshift(noteRpin);
-        deletePinItem(id);
+        handlePinUnpin(id, false);
+    }
+
+    useEffect(() => {
+        setAllNotes(notes)
+    }, [notes])
+
+    const getPinnedTitle = (bool) => {
+        for (let it of allNotes) {
+            if (it.isPinned === true) {
+                return (
+                    <div className='mb-2'>
+                        <p className="mb-0">{bool ? "Pinned" : "UnPinned"} </p>
+                        <hr className="bg-dark m-0" />
+                    </div>)
+            }
+        }
+        return null;
     }
 
     return (
-        <>
-            <div className="container d-flex flex-column mt-3">
+        <React.Fragment>
+            <div className="container d-flex flex-column mt-1">
                 <div className=" pt-1" style={{ paddingLeft: "25px" }}>
-                    {pinArray.length !== 0 ?
-                        <>
-                            <p className="pb-0"> Pinned</p>
-                            <hr className="bg-dark" style={{ margin: "0" }} />
-                        </> : null}
+                    {allNotes.length !== 0 &&
+                        getPinnedTitle(true)
+                    }
                 </div>
 
-                <div className="container d-flex justify-content-lg-center align-items-start flex-wrap m-auto ">
-
-                    {pinArray.map((val, index) => {
-                        return <PinnedNote key={index}
+                <div className={!view ? "vertical_view_box" :
+                    "grid_view_box"}>
+                    {allNotes.map((val, index) => {
+                        if (val.isPinned === false) return
+                        return <Note key={index}
                             id={index}
-                            title={val.title}
-                            text={val.text}
-                            deleteProp={deletePinItem}
+                            note={val}
+                            deleteProp={() => deleteNote(index)}
+                            pinAdd={pinFlagFun}
                             pinRemove={pinRemoveFun}
                             classAdd="" />
                     })}
                 </div>
             </div>
-            {/* <PinnedNote/> */}
-            <div className="container d-flex flex-column mt-3">
+            <div className="container d-flex flex-column mt-1">
                 <div className=" pt-1" style={{ paddingLeft: "25px" }}>
-                    {pinArray.length && props.array.length !== 0 ?
-                        <>
-                            <p className="pb-0">Others</p>
-                            <hr className="bg-dark" style={{ margin: "0" }} />
-                        </> : null}
+                    {getPinnedTitle(false)}
                 </div>
-                {props.newViewProps ?
-                    <div className="container d-flex justify-content-lg-center align-items-start flex-wrap mt-3 m-auto">
-                        {props.array.map((val, index) => {
+                <div className={!view ? "vertical_view_box" :
+                    "grid_view_box"}>
+                    {
+                        allNotes.map((val, index) => {
+                            if (val.isPinned === true) return
                             return <Note key={index}
                                 id={index}
-                                title={val.title}
-                                text={val.text}
-                                deleteProp={deleteItem}
-                                pinFlag={pinFlagFun}
+                                note={val}
+                                deleteProp={deleteNote}
+                                pinAdd={pinFlagFun}
+                                pinRemove={pinRemoveFun}
                                 classAdd="" />
-                        })}
-                    </div> :
-                    <div className="container grid_view_box justify-content-center">
-                        {props.array.map((val, index) => {
-                            return <Note key={index}
-                                id={index}
-                                title={val.title}
-                                text={val.text}
-                                deleteProp={deleteItem}
-                                classAdd="newNoteClass" />
-                        })}
-                    </div>}
+                        })
+                    }
+                </div>
             </div>
-        </>
+        </React.Fragment>
     )
 }
