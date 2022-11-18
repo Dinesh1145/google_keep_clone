@@ -16,7 +16,7 @@ const TextWritingBox = ({ addNewNote }) => {
     const addEvent = () => {
         if (note.title !== "" || note.text !== "") {
             addNewNote(note);
-            setNote({ title: "", text: "", isBook: false })
+            setNote({ title: "", text: "", isPinned: false })
         } else
             alert("please fill");
         setnum(0);

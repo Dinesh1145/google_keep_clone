@@ -10,7 +10,7 @@ const Trash = ({ trashNotes, addFromTrash, permanentDelete }) => {
 
     return (
         <div className="container d-flex justify-content-center align-items-center">
-            {trashes.length != 0 ?
+            {trashes.length !== 0 ?
                 <div className={
                     "grid_view_box"}>
                     {trashes.map((val, index) => {
